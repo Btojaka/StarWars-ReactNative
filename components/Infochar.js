@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Container from './Container';
 
@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
         fontSize: 18
     }
 });
+export default function Infochar(){
 
-export default function Characters(){
-
-    return (
+    
+    return(
         <Container>
-            <Text style={styles.text}>HOME</Text>
+            <Text style={styles.text}>INFO CHARACTER</Text>
         </Container>
-    )
+    );
+
 }
-// RENDER() ??

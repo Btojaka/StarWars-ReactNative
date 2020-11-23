@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
 });
 
 export default function Characters(){
-
-    return (
-        <Container>
-            <Text style={styles.text}>HOME</Text>
-        </Container>
-    )
+    
+        return(
+            <Container>
+                <Text style={styles.text}>HOME</Text>
+            </Container>
+        );
+    
 }
-// RENDER() ??
