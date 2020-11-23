@@ -1,15 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component, useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Container from './components/Container';
 import Characters from './components/Characters';
-import Home from './components/Home';
-import Infochar from './components/Infochar';
+//import Infochar from './components/Infochar';
 
 function App() {
   // declaring constant and inicializing state
   const [characters, setCharacters] = useState([]);
+  //const [loading, setLoading] = useState(true); // tiene que cambiar de estado para mostrarse PRESCINDIBLE
+  const [images, setImages] = useState([]);
 
+  const listChar 
   useEffect(()=>{
     async function fetchCharacters(){
       let res = await fetch('https://swapi.dev/api/people/?format=json');
@@ -17,14 +18,20 @@ function App() {
       setCharacters(data.results); 
     }
 
+    async function fetchImages(){
+      let res = await fetch('./images');
+    }
+  
+
     fetchCharacters();
+    setLoading(false)
   },[])
   console.log('characters', characters); // TESTS
   console.log('data', characters); //TESTS
 
   return(
     <Container>
-      <Home />
+      <Characters data={ characters } />      
     </Container>
   );
 }
@@ -32,4 +39,8 @@ function App() {
 export default App;
 
 
-
+// {loading ? (
+//   <ActivityIndicator size="large" />
+// ) : (
+// <Characters data={ characters } />
+// )}
