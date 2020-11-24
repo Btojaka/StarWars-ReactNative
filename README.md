@@ -1,7 +1,7 @@
 # StarWars
 React Native App
 
-This is my first app with this technology and I did it to pass a second interview job 
+This is my first app with this technology and I did it as a second interview job 
 
 The test they asked me to do was:
 
