@@ -1,5 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native';
-import Container from './Container';
+import { Button, StyleSheet, Text, View, Navigator } from 'react-native';
+import Container from './Container'; 
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+
+
+export default class Infochar extends React.Component {
+
+    render() {
+        return (
+            <View style={styles.text}>
+            <Text>CHARACTER INFO: </Text>
+            
+            <Button
+                title="Back"
+                onPress={() => this.props.navigation.navigate('CharactersScreen')}
+            />
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     item: {
@@ -10,16 +32,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#ffe81f',
-        fontSize: 18
+        flex: 1,
+        fontSize: 18,
+        alignItems: 'center',
+        justifyContent: 'center'
+        
     }
 });
-export default function Infochar(){
-
-    
-    return(
-        <Container>
-            <Text style={styles.text}>INFO CHARACTER</Text>
-        </Container>
-    );
-
-}

@@ -1,93 +1,91 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Container from './Container';
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
-import C3PO from '../images/c3po.png';
-import Chewbacca from '../images/chewbacca.png';
-import Darthvader from '../images/darkvader.png';
-import Leia from '../images/leia.png';
-import Luke from '../images/luke.png';
-import Oviwankenobi from '../images/obiwankenobi.png';
-import R2d2 from '../images/r2d2.png';
-import Yoda from '../images/yoda.png';
+import React, { Component } from "react";
+import { View, Text, FlatList, StyleSheet,TouchableHighlight } from "react-native";
+import { Card, CardAction, CardImage, CardTitle, CardButton, List, ListItem } from 'react-native-elements';
+class Characters extends Component {
+        constructor(props) {
 
-//addMenuItem()
+        super(props);
 
-const styles = StyleSheet.create({
-    item: {
-        padding: 20,
-        justifyContent: 'center',
-        borderColor: 'rgba(255,232,31, .2)',
-        borderBottomWidth: 1
-    },
-    text: {
-        color: '#ffe81f',
-        fontSize: 20
+        this.state = {
+        loading: false,
+        data: [],
+        page: 1,
+        seed: 1,
+        error: null,
+        refreshing: false,
+        };
     }
-});
 
-export default function Characters({ data }){
+    componentDidMount() {
+        this.makeRemoteRequest();
+    }
 
+    makeRemoteRequest = () => {
+        const { page, seed } = this.state;
+        const url = `https://swapi.dev/api/people/?format=json`;
+        //`https://swapi.dev/api/people/?id=${id}`
+        this.setState({ loading: true });
+        fetch(url)
+        .then(res => res.json())
+        .then(res => {
+            this.setState({
+            data: res.results,
+            error: res.error || null,
+            loading: false,
+            refreshing: false
+            });
+        })
+        .catch(error => {
+            this.setState({ error, loading: false });
+        });
+    };
+
+    render() {
     return (
-        
-        
-            <Container>
-                <View>
-                    <Text>Star WarsCharacters</Text>
-                </View>
-                <Grid>
-                    {data.map((characters, i) => {
-                        return(
-                                <Row key={i}>
-                                    <Card>
-                                        <CardAction 
-                                            separator={true} 
-                                            inColumn={false}>
-                                            <CardTitle
-                                                title={characters.name}
-                                            />
-                                            <CardImage 
-                                                source={Chewbacca} 
-                                            />
-                                            <CardButton
-                                                onPress={() => {
-
-                                                }}
-                                                title="Info"
-                                                color="#FEB557"
-                                            />
-                                        </CardAction>
-                                    </Card>
-                                </Row>
-                        )
-                    })}
-                </Grid>
-            </Container>
-                
-    )
+        <View style={styles.container}>
+        <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('InfocharScreen')}>
+                    <Card>
+                        <Text>{item.name}</Text>
+                    </Card>
+                        
+                </TouchableHighlight>
+        )}
+        />
+        </View>
+    );
+    }
+    
 }
 
-// RENDER() ??
-{/* <CardImage 
-      source={{uri: 'http://bit.ly/2GfzooV'}} 
-      title="Top 10 South African beaches"
-    />
-    <CardTitle
-      subtitle="Number 6"
-    />
-    <CardContent text="Clifton, Western Cape" />
-    <CardAction 
-      separator={true} 
-      inColumn={false}>
-      <CardButton
-        onPress={() => {}}
-        title="Share"
-        color="#FEB557"
-      />
-      <CardButton
-        onPress={() => {}}
-        title="Explore"
-        color="#FEB557"
-      />
-    </CardAction> */}
+const styles = StyleSheet.create({
+    container: {
+        //flex: 1,
+        paddingTop: 22
+         
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+    },
+});
+
+export default Characters;
+
+{/* <ListItem
+                roundAvatar
+                title={`${item.name}`}
+                subtitle={item.genders}
+                //avatar={{ uri: item.picture.thumbnail }}
+            /> */}
+{/* <Card styleComponent={{}}
+        onCardClick={() => {const { navigate } = this.props.navigation; navigate('Detail', { data: item  });}}
+        onClickBottomButton ={() => {}}
+        onShare ={() =>{}}
+        item={item}
+        userIdD={""}>
+    
+  </Card> */}
