@@ -1,29 +1,15 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, StyleSheet } from "react-native";
-import 'react-native-gesture-handler';
-import Characters from './components/Characters';
-import Infochar from './components/Infochar';
+import Navigation from './app/navigations/Navigation';
+import Characters from './app/screens/Characters';
+import Infochar from './app/screens/Infochar';
 
-const Stack = createStackNavigator();
 
-export default class App extends React.Component {
-  render() {
+//const Stack = createStackNavigator();
+
+export default function App() {
     return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="CharactersScreen"
-            component={Characters}
-          />
-          <Stack.Screen
-            name="InfocharScreen"
-            component={Infochar}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Navigation />
     );
   }
-}
+
 
