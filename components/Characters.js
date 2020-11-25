@@ -21,10 +21,35 @@ class Characters extends Component {
     }
 
     makeRemoteRequest = () => {
-        const { page, seed } = this.state;
         const url = `https://swapi.dev/api/people/?format=json`;
+       // const url2 = `http://swapi.dev/api/people/?page=2&&format=json`;
         //`https://swapi.dev/api/people/?id=${id}`
-        this.setState({ loading: true });
+
+        const getDataUsingGet = () => {
+            //GET request
+            fetch(`https://swapi.dev/api/people/?format=json`, {
+            method: 'GET',
+            //Request Type
+            })
+            .then((res) => res.json())
+            //If response is in json then in success
+            .then((resjson) => {
+            //Success
+            this.setState({
+                data: resjson.results,
+                error: resjson.error || null,
+                loading: false,
+                refreshing: false
+                });
+            })
+            //If response is not in json then in error
+            .catch((error) => {
+            //Error
+            this.setState({ error, loading: false });
+            });
+        };
+
+
         fetch(url)
         .then(res => res.json())
         .then(res => {
@@ -38,6 +63,20 @@ class Characters extends Component {
         .catch(error => {
             this.setState({ error, loading: false });
         });
+
+        // this.setState({ loading: true });
+        // fetch(url2)
+        // .then(res => res.json())
+        // .then(res => {
+        //     this.setState({
+        //     data: res.results,
+        //     error: res.error || null,
+        //     loading: false,
+        //     refreshing: false
+        //     });
+        // })
+
+
     };
 
     render() {
@@ -45,10 +84,10 @@ class Characters extends Component {
         <View style={styles.container}>
         <FlatList
             data={this.state.data}
-            renderItem={({ item }) => (
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('InfocharScreen')}>
+            renderItem={({ item, index }) => (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('InfocharScreen', {data: data} )}>        
                     <Card>
-                        <Text>{item.name}</Text>
+                        <Text>ID: {index} , Name:{item.name}</Text>
                     </Card>
                         
                 </TouchableHighlight>
