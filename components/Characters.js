@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, StyleSheet,TouchableHighlight } from "react-native";
 import { Card, CardAction, CardImage, CardTitle, CardButton, List, ListItem } from 'react-native-elements';
-class Characters extends Component {
+
+class Characters extends React.Component {
         constructor(props) {
 
         super(props);
@@ -21,77 +22,53 @@ class Characters extends Component {
     }
 
     makeRemoteRequest = () => {
-        const url = `https://swapi.dev/api/people/?format=json`;
-       // const url2 = `http://swapi.dev/api/people/?page=2&&format=json`;
-        //`https://swapi.dev/api/people/?id=${id}`
+       // const url = `https://swapi.dev/api/people/?format=json`;
+       // const url2 = `http://swapi.dev/api/people/?page=2&&format=json`; // tests
+        //`https://swapi.dev/api/people/?id=${id}` // tests
 
-        const getDataUsingGet = () => {
-            //GET request
-            fetch(`https://swapi.dev/api/people/?format=json`, {
-            method: 'GET',
-            //Request Type
-            })
-            .then((res) => res.json())
-            //If response is in json then in success
-            .then((resjson) => {
-            //Success
-            this.setState({
-                data: resjson.results,
-                error: resjson.error || null,
-                loading: false,
-                refreshing: false
-                });
-            })
-            //If response is not in json then in error
-            .catch((error) => {
-            //Error
-            this.setState({ error, loading: false });
-            });
-        };
-
-
-        fetch(url)
-        .then(res => res.json())
-        .then(res => {
-            this.setState({
-            data: res.results,
-            error: res.error || null,
+        //GET request
+        fetch(`https://swapi.dev/api/people/?format=json`, {
+        method: 'GET',
+        //Request Type
+        })
+        .then((res) => res.json())
+        //If response is in json then in success
+        .then((resjson) => {
+        //Success
+        this.setState({
+            data: resjson.results,
+            error: resjson.error || null,
             loading: false,
             refreshing: false
             });
         })
-        .catch(error => {
-            this.setState({ error, loading: false });
+        //If response is not in json then in error
+        .catch((error) => {
+        //Error
+        this.setState({ error, loading: false });
         });
-
-        // this.setState({ loading: true });
-        // fetch(url2)
-        // .then(res => res.json())
-        // .then(res => {
-        //     this.setState({
-        //     data: res.results,
-        //     error: res.error || null,
-        //     loading: false,
-        //     refreshing: false
-        //     });
-        // })
-
-
-    };
+    }
 
     render() {
     return (
         <View style={styles.container}>
+        <Text style={styles.item}>Star Wars Character</Text>
         <FlatList
             data={this.state.data}
             renderItem={({ item, index }) => (
-                <TouchableHighlight onPress={() => this.props.navigation.navigate('InfocharScreen', {data: data} )}>        
-                    <Card>
-                        <Text>ID: {index} , Name:{item.name}</Text>
+                // pass props to next screen
+                // !!! we want to pass , {data: data} too on press
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('InfocharScreen')}>        
+                    {/* !!! create new style cards  */}
+                    <Card > 
+                        {/* show this data characters */}
+                        <Text style={styles.text}>{index+1}. {item.name}</Text> 
+                        {/* here the image/avatar with the same index name */}
                     </Card>
-                        
+                
                 </TouchableHighlight>
-        )}
+            )}
+            keyExtractor={item => item.name}
         />
         </View>
     );
@@ -101,30 +78,34 @@ class Characters extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
-        paddingTop: 22
-         
+        flex: 1,
+        paddingTop: 22,
+        paddingBottom: 22,
+        backgroundColor: 'grey',
+        
+    },
+    
+    text:{
+        fontSize: 18,
+        color: 'black',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:'left',
+        padding: 40
+        //fontWeight: 'bold' 
     },
     item: {
         padding: 10,
-        fontSize: 18,
-        height: 44,
+        fontSize: 25,
+        textAlign:'center',
+        color: '#ffe81f',
+        borderColor: 'rgba(255,232,31, .2)',
+        borderBottomWidth: 5,
+        backgroundColor: 'black',
+
     },
 });
 
 export default Characters;
 
-{/* <ListItem
-                roundAvatar
-                title={`${item.name}`}
-                subtitle={item.genders}
-                //avatar={{ uri: item.picture.thumbnail }}
-            /> */}
-{/* <Card styleComponent={{}}
-        onCardClick={() => {const { navigate } = this.props.navigation; navigate('Detail', { data: item  });}}
-        onClickBottomButton ={() => {}}
-        onShare ={() =>{}}
-        item={item}
-        userIdD={""}>
-    
-  </Card> */}

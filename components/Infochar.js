@@ -7,20 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 
-export default class Infochar extends Component {
-    constructor(props) {
-
-        super(props);
-
-        this.state = {
-        loading: false,
-        data: [],
-        page: 1,
-        seed: 1,
-        error: null,
-        refreshing: false,
-        };
-    }
+export default class Infochar extends React.Component {
+    
 
     render() {
         return (
