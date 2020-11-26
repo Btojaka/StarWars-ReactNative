@@ -2,28 +2,27 @@ import { Button, StyleSheet, Text, View, Navigator } from 'react-native';
 import Container from './Container'; 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 
 
 
 
-export default class Infochar extends React.Component {
+export default function Infochar (props) {
+    console.warn(props.navigation);
+    return (
+                <View > 
+                    {/* show this data characters */}
+                    <TouchableHighlight>
+                        <Text>Show Info Character</Text>
+                    </TouchableHighlight>
+                    {/* here the image/avatar with the same index name */}
+                </View>
+    )
     
-
-    render() {
-        return (
-            <View style={styles.text}>
-            <Text>CHARACTER INFO: </Text>
-            
-            <Button
-                title="Back"
-                onPress={() => this.props.navigation.navigate('characters')}
-            />
-            </View>
-        );
-    }
+    
+    
 }
-
 const styles = StyleSheet.create({
     item: {
         padding: 20,
